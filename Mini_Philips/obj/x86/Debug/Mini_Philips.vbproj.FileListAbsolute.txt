@@ -1,0 +1,36 @@
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogGetDark.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogStart.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogTakeSample.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogWSConfirm.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.frmMain.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.Resources.resources
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\herman.pahulu\documents\visual studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.exe.licenses
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.exe
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.pdb
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.xml
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.exe
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.xml
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.pdb
+C:\Users\herman.pahulu\Documents\Visual Studio 2010\Projects\Mini_Philips\Mini_Philips\obj\x86\Debug\GenerateResource.write.3820.tlog
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.exe
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.xml
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.pdb
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.exe.config
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.vbproj.ResolveComReference.cache
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.exe
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.pdb
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Mini_Philips.xml
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogGetDark.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogStart.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogTakeSample.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.DialogWSConfirm.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.frmMain.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.Resources.resources
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.vbproj.GenerateResource.Cache
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.exe.licenses
+C:\Users\tianhao.gu\Desktop\Software\Mini_Philips\Mini_Philips\obj\x86\Debug\Mini_Philips.vbprojResolveAssemblyReference.cache

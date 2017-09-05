@@ -1,0 +1,169 @@
+  Public Sub TakeSample()
+        '**********************************************************
+        '   Procedure:  Take Sample
+        '   Purpose:    receive the spectrum, in pulse mode we need to create the pulse and measure when spectrum is taken
+        '   Inputs:     num, which dark scan to use (blu or test)
+        '   Outputs:    resultpack to include cie x,y lumens watts dom wl CE Ra R9 
+        '   Author:     HP
+        '   Rev Hist:   10/26/11, Original
+        '               5/3/13, Updated for pulse mode
+        '
+        '**********************************************************
+        Dim sTime As Date
+        Dim sTemp As String
+        Dim v1, v2 As Double
+        Dim iTime As Double
+        Dim trigTime, pwrSleep As Double
+        Dim calTspan As Double
+        Dim minspecfinal As Double
+
+        iTime = (iIntegrationTime / 1000) * frmMain.neScanAvg.Value                     'put integration time into ms
+        minspecfinal = Int(minSpecfinish / timeSlice + 0.5) * timeSlice
+        V_delta = 0
+        pwrSleep = frmMain.nePwr_Delay.Value                'frmMain.nePwr_Delay.Value * timeSlice
+
+        If frmMain.opPulse.Checked Then                     'if pulse mode, turn output on
+
+            If iTime >= (2 * measSleep) + minspecfinal Then
+                trigTime = iTime * (Int((pwrSleep + iTime) / iTime) + 1) - iTime - pwrSleep
+                calTspan = pwrSleep + iTime + measSleep
+            ElseIf iTime >= measSleep + minspecfinal Then
+                trigTime = iTime * (Int((pwrSleep + iTime) / iTime) + 1) - iTime - pwrSleep
+                calTspan = pwrSleep + iTime + (2 * measSleep)
+            Else
+                trigTime = iTime * (Int((pwrSleep + measSleep + minspecfinal) / iTime) + 1) - pwrSleep - measSleep - minspecfinal
+                calTspan = pwrSleep + measSleep + minspecfinal + (2 * measSleep)
+            End If
+
+            burnPixels = wrapper.getSpectrum(0)                     'spectrum is taken for the trigger
+            System.Threading.Thread.Sleep(Int(trigTime))
+           
+            sTime = Now
+            frmMain.serPS.Write("OUTP ON" & vbCrLf)
+            System.Threading.Thread.Sleep(Int(pwrSleep))            'delay for pwr sply processing
+            t_start = Now.Subtract(sTime)
+            Try
+                frmMain.serPS.Write("MEAS:VOLT?" & vbCrLf)
+                System.Threading.Thread.Sleep(Int(measSleep))           'delay for pwr sply processing
+                If iTime >= (2 * measSleep) + minspecfinal Then
+                    frmMain.serPS.Write("MEAS:CURR?" & vbCrLf)
+                    System.Threading.Thread.Sleep(Int(measSleep))           'delay for pwr sply processing
+                End If
+            Catch
+                frmMain.serPS.Write("OUTP OFF" & vbCrLf)
+                MsgBox("Communication error to power supply pre spectrum capture.  Re-test the sample and if this problem persist, ask for help or increase measSleep in System File.")
+                pComErr = True
+                aResultPack(6) = 0
+                aResultPack(5) = 0
+                V_delta = 0
+                Exit Sub
+            End Try
+        End If
+
+        samplePixels = wrapper.getSpectrum(0)                       'spectrum is taken and filled into samplepixels
+
+        If frmMain.opPulse.Checked Then                             'if pulse mode, turn output off
+            t_spec = Now.Subtract(sTime)
+            frmMain.serPS.Write("MEAS:VOLT?" & vbCrLf)
+            System.Threading.Thread.Sleep(Int(measSleep))           'delay for pwr sply processing
+            If iTime < (2 * measSleep) + minspecfinal Then
+                frmMain.serPS.Write("MEAS:CURR?" & vbCrLf)
+                System.Threading.Thread.Sleep(Int(measSleep))           'delay for pwr sply processing
+            End If
+            frmMain.serPS.Write("OUTP OFF" & vbCrLf)
+            t_pulse = Now.Subtract(sTime)
+            frmMain.txtTspan.Text = FormatNumber(t_pulse.TotalMilliseconds, 1) & " : " & FormatNumber(calTspan, 1)
+
+            If (t_pulse.TotalMilliseconds < (1 - timethresh) * calTspan) Or (t_pulse.TotalMilliseconds > (1 + timethresh) * calTspan) Then
+                frmMain.txtTspan.BackColor = Color.Red
+            Else
+                frmMain.txtTspan.BackColor = Color.WhiteSmoke
+            End If
+
+            System.Threading.Thread.Sleep(measSleep)
+            Try
+                sTemp = frmMain.serPS.ReadExisting
+                v1 = FormatNumber(Val(sTemp.Substring(0, sTemp.IndexOf(vbCrLf))), 3)
+                sTemp = sTemp.Substring(sTemp.IndexOf(vbCrLf) + 1)
+                If iTime >= (2 * measSleep) + minspecfinal Then
+                    aResultPack(6) = FormatNumber(Val(sTemp.Substring(0, sTemp.IndexOf(vbCrLf))), 3)
+                    v2 = FormatNumber(Val(sTemp.Substring(sTemp.IndexOf(vbCrLf) + 1)), 3)
+                Else
+                    v2 = FormatNumber(Val(sTemp.Substring(0, sTemp.IndexOf(vbCrLf))), 3)
+                    aResultPack(6) = FormatNumber(Val(sTemp.Substring(sTemp.IndexOf(vbCrLf) + 1)), 3)
+                End If
+                aResultPack(5) = FormatNumber((v1 + v2) / 2, 3)
+                V_delta = v1 - v2
+            Catch
+                frmMain.serPS.Write("OUTP OFF" & vbCrLf)
+                MsgBox("Communication error to power supply.  Re-test the sample and if this problem persist, ask for help or increase measSleep in System File.")
+                pComErr = True
+                aResultPack(6) = 0
+                aResultPack(5) = 0
+                V_delta = 0
+            End Try
+        Else
+            frmMain.txtTspan.Text = ""
+            frmMain.txtTspan.BackColor = Color.WhiteSmoke
+            t_start = Now.Subtract(Now)
+            t_spec = Now.Subtract(Now)
+            t_pulse = Now.Subtract(Now)
+        End If
+
+        Application.DoEvents()                          'make sure the GUI is updated before moving on.
+
+        dMaxPixel = 0
+        For i = 1 To iNumPix - 1                        'go through both arrays to find max pixel (intensity) and at 
+            If samplePixels(i) > dMaxPixel And wavelengthArray(i) < 1000 Then     'what wL that occurred at
+                dMaxPixel = samplePixels(i)
+                dMaxWL = wavelengthArray(i)
+            End If
+        Next
+
+    End Sub
+
+
+ Public Sub GetTimeSlice()
+        Dim sTime As Date
+        Dim tSpan As TimeSpan
+
+        sTime = Now
+        System.Threading.Thread.Sleep(1)
+        tSpan = Now.Subtract(sTime)
+        If tSpan.TotalMilliseconds < 1 Then
+            timeSlice = 1
+        Else
+            timeSlice = tSpan.TotalMilliseconds
+        End If
+        'timeSlice = 15.7
+        measSleep = Int(minMeasSleep / timeSlice + 0.5) * timeSlice
+
+        lbl_ts.Text = "ts = " & FormatNumber(timeSlice, 4) & " ms"
+    End Sub
+
+
+ Public Sub UpdateIntTime()
+
+        If opPulse.Checked Then
+            If neInt_B.Value > timeSlice Then
+                neInt_B.Value = Int(CDbl(neInt_B.Value) / timeSlice + 0.5) * timeSlice
+            Else
+                MsgBox("Blue Integration Time not changed due to large timeslice and possibility of saturation")
+            End If
+
+            If neInt_W.Value > timeSlice Then
+                neInt_W.Value = Int(CDbl(neInt_W.Value) / timeSlice + 0.5) * timeSlice
+            Else
+                MsgBox("White Integration Time not changed due to large timeslice and possibility of saturation")
+            End If
+        End If
+        If opRef.Checked Then
+            iIntegrationTime = neInt_B.Value * 1000   'update variable and set to uSec
+        Else
+            iIntegrationTime = neInt_W.Value * 1000
+        End If
+        wrapper.setIntegrationTime(0, iIntegrationTime)     'set int time on spectrometer and burn scan
+
+        System.Threading.Thread.Sleep(100)
+        burnPixels = wrapper.getSpectrum(0)
+    End Sub
